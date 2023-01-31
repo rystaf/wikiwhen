@@ -1,0 +1,86 @@
+body {
+  font-family: sans-serif;
+  text-align:center;
+}
+@media only screen and (max-width: 1000px) {
+  body {
+    font-size: 50%;
+  }
+  input[type=text] {
+    width: 3em !important;
+  }
+}
+figure {
+  height: 80vh;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  background-size:     contain;
+  background-repeat:   no-repeat;
+  background-position: center bottom;  
+}
+input[type=range] {
+  width:80%;
+  display:block;
+  margin: 1em auto;
+}
+input[type=text] {
+  width:5rem;
+  font-size:1em;
+  text-align:center;
+  margin-left: .5em;
+  color: black;
+}
+#link {
+  width: 20em !important;
+  margin: .25em;
+}
+label {
+  white-space: nowrap;
+  display: inline-block;
+  font-size:1.5em;
+}
+select {
+  font-size:1em;
+  margin-left: .5em;
+}
+div {
+  margin: 10px 0;
+  display: flex;
+  justify-content:center;
+  gap: 10px;
+}
+input[type=submit] {
+  margin: 0 .25em;
+  display: inline-block;
+  font-size: 1.5em;
+}
+a,span {
+  display:inline-block;
+  margin: 5px 0 10px 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  margin: .25em;
+}
+label[for=score] {
+  position:fixed;
+  right: 0px;
+  bottom: 0px;
+  background-color: white;
+  padding: .25em .25em .5em .5em;
+}
+span {
+  position: absolute;
+  right: 1em;
+  margin: .25em !important;
+}
+b {
+  position: absolute;
+  left: 5em;
+  margin: .25em;
+  font-size: 1.5em;
+}
