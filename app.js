@@ -1,4 +1,5 @@
 min = 1880
+weight = 50
 now = (new Date()).getFullYear()
 var year
 var countries = []
@@ -96,7 +97,7 @@ getNext = async () => {
   document.body.appendChild(submit)
   submit.addEventListener("click", async (e)=>{
     if (e.target.value == "Guess") {
-      p = 1000-Math.abs(photo.year-parseInt(range.value))*20
+      p = 1000-Math.abs(photo.year-parseInt(range.value))*weight
       if (photo.country == selectEl.value) {
         p += 250
       }
