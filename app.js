@@ -7,11 +7,8 @@ var country
 var picks = []
 var r = 0
 document.getElementById("score").value = 0
-var start = new Date(now.getFullYear(), 0, 0);
-var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-var oneDay = 1000 * 60 * 60 * 24;
-var day = Math.floor(diff / oneDay);
-var random = module.exports(now.getFullYear()*1000 + day)
+var seed = now.getFullYear()*10000 + (now.getMonth()+1)*100 + now.getDate()
+var random
 getRandom = photos => {
   if (!photos) { return "" }
   i = Math.floor(random()*photos.length)
@@ -132,35 +129,34 @@ getNext = async () => {
       document.body.appendChild(document.createElement("br"))
       document.body.appendChild(submit)
       if (photo.round == "5/5") {
-            submit.remove()
-            let link = document.createElement("input")
-            link.type = "text"
-            link.id = "link"
-            link.value = `I scored ${score.value} (${Array.from(document.getElementsByTagName("span")).reduce((a,b)=>a+b.innerHTML,"").slice(1)}) at ${window.location.origin}`
-            let share = document.createElement("input")
-            share.value = "Share"
-            share.type = "Submit"
-            share.addEventListener("click", ()=>{
-              if (navigator?.share) {
-                navigator.share({text: link.value})
-              } else if (navigator?.clipboard) {
-                // Copy the text inside the text field
-                navigator.clipboard.writeText(link.value);
-                share.value = "Copied"
-                share.disabled = true
-                setTimeout(()=>{share.value="Share";share.disabled=false},1000)
-              }
-            })
-            if (navigator?.share || navigator?.clipboard) document.body.appendChild(share)
-            document.body.appendChild(document.createElement("br"))
-            document.body.append(link)
+        submit.value = "New"
+        let link = document.createElement("input")
+        link.type = "text"
+        link.id = "link"
+        link.value = `I scored ${score.value} (${Array.from(document.getElementsByTagName("span")).reduce((a, b) => a + b.innerHTML, "").slice(1)}) at ${window.location.origin+window.location.pathname}?s=${seed}`
+        let share = document.createElement("input")
+        share.value = "Share"
+        share.type = "Submit"
+        share.addEventListener("click", () => {
+          if (navigator?.share) {
+            navigator.share({ text: link.value })
+          } else if (navigator?.clipboard) {
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(link.value);
+            share.value = "Copied"
+            share.disabled = true
+            setTimeout(() => { share.value = "Share"; share.disabled = false }, 1000)
+          }
+        })
+        if (navigator?.share || navigator?.clipboard) document.body.appendChild(share)
+        document.body.appendChild(document.createElement("br"))
+        document.body.append(link)
       } else {
-        submit.value= "Next"
+        submit.value = "Next"
       }
-
       window.scrollTo(0, document.body.scrollHeight);
     } else if (r == 5) {
-      window.location.href=window.location.origin+window.location.pathname
+      window.location.href = window.location.origin + window.location.pathname + "?s=" + Math.floor(Math.random()*100000)
     } else if (submit.value != "New") {
       submit.disabled = true;
       document.body.appendChild(document.createElement("hr"))
@@ -179,16 +175,10 @@ getNext = async () => {
   r += 1
   countries = []
 }
-if (p = (new URLSearchParams(window.location.search)).get("p")) {
-  picks = atob(p)
-    .split('-')
-    .map(x => x.split('.'))
-    .map(([pageid, country, year]) => ({
-      pageid: parseInt(pageid),
-      country: country.replace(/[^0-9a-z ]/gi, ''),
-      year: parseInt(year)
-    }))
+if (s = (new URLSearchParams(window.location.search)).get("s")) {
+  seed = s
 }
+random = module.exports(seed)
 main = async()=>{
   if (picks.length > 0) {
     console.log(picks)
