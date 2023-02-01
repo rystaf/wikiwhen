@@ -136,12 +136,17 @@ getNext = async () => {
             let share = document.createElement("input")
             share.value = "Share"
             share.type = "Submit"
-            share.addEventListener("click", ()=>navigator.share({
-              text: link.value,
-            }))
-            if (navigator.share) {
-              document.body.appendChild(share)
-            }
+            share.addEventListener("click", ()=>{
+              if (navigator?.share) {
+                navigator.share({text: link.value})
+              } else if (navigator?.clipboard) {
+                // Copy the text inside the text field
+                navigator.clipboard.writeText(link.value);
+                share.value = "Copied"
+                share.disabled = true
+              }
+            })
+            if (navigator?.share || navigator?.clipboard) document.body.appendChild(share)
             document.body.appendChild(document.createElement("br"))
             document.body.append(link)
       } else {
