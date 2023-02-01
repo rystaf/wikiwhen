@@ -7,7 +7,11 @@ var country
 var picks = []
 var r = 0
 document.getElementById("score").value = 0
-var random = module.exports(now.getDate()+now.getMonth()+now.getYear())
+var start = new Date(now.getFullYear(), 0, 0);
+var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+var oneDay = 1000 * 60 * 60 * 24;
+var day = Math.floor(diff / oneDay);
+var random = module.exports(now.getFullYear()*1000 + day)
 getRandom = photos => {
   if (!photos) { return "" }
   i = Math.floor(random()*photos.length)
