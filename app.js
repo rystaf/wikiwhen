@@ -129,19 +129,23 @@ getNext = async () => {
       document.body.appendChild(submit)
       if (photo.round == "5/5") {
             submit.remove()
+            let link = document.createElement("input")
+            link.type = "text"
+            link.id = "link"
+            link.value = `I scored ${score.value} at ${window.location.origin}`
             let share = document.createElement("input")
             share.value = "Share"
             share.type = "Submit"
             share.addEventListener("click", ()=>navigator.share({
               title: "Wiki When",
-              text: `I scored ${score.value} at ${window.location.origin}}`,
+              text: link.value,
               url: window.location.origin
             }))
             if (navigator.share) {
               document.body.appendChild(share)
             }
             document.body.appendChild(document.createElement("br"))
-            document.body.appendChild(document.createElement("br"))
+            document.body.append(link)
       } else {
         submit.value= "Next"
       }
