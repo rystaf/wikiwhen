@@ -98,10 +98,10 @@ getNext = async () => {
   submit.addEventListener("click", async (e)=>{
     if (e.target.value == "Guess") {
       p = 1000-Math.abs(photo.year-parseInt(range.value))*weight
+      if (p<0) { p = 0 }
       if (photo.country == selectEl.value) {
         p += 250
       }
-      if (p<0) { p = 0 }
       range.remove();
       text.disabled = true
       selectEl.disabled = true
