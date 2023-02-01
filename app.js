@@ -136,7 +136,7 @@ getNext = async () => {
             let link = document.createElement("input")
             link.type = "text"
             link.id = "link"
-            link.value = `I scored ${score.value} at ${window.location.origin}`
+            link.value = `I scored ${score.value} (${Array.from(document.getElementsByTagName("span")).reduce((a,b)=>a+b.innerHTML,"").slice(1)}) at ${window.location.origin}`
             let share = document.createElement("input")
             share.value = "Share"
             share.type = "Submit"
