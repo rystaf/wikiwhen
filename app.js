@@ -1,18 +1,19 @@
 min = 1880
 weight = 50
-now = (new Date()).getFullYear()
+now = new Date()
 var year
 var countries = []
 var country
 var picks = []
 var r = 0
 document.getElementById("score").value = 0
+var random = module.exports(now.getDate()+now.getMonth()+now.getYear())
 getRandom = photos => {
   if (!photos) { return "" }
-  i = Math.floor(Math.random()*photos.length)
+  i = Math.floor(random()*photos.length)
   member = photos[i]
-  console.log("pick", member.title)
   source = member?.thumbnail?.source
+  console.log("pick", member.title, source)
   if (member.title.slice(0,4) == "File" && !source) {
     return getRandom(photos)    
   }
@@ -28,6 +29,10 @@ getPhoto = async (category, once) => {
   resp = await fetch(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&generator=categorymembers&formatversion=2&pithumbsize=1000&pilicense=free&gcmtitle=Category%3A${category}&gcmtype=file|subcat&gcmlimit=max`)
   members =  await resp.json()
   pick = getRandom(members?.query?.pages)
+  if (pick == "") {
+    year = (curYear - Math.floor(random()*(curYear-min)))
+    return getPhoto(year + " photographs by country")
+  }
   if (/[0-9]{4} photographs by country/.test(category)) {
     console.log("Main")
     countries = members?.query?.pages?.map(x => x?.title?.slice(29)?.replace(/^the /,"")).sort()
@@ -40,7 +45,8 @@ getPhoto = async (category, once) => {
   return pick
 }
 getNext = async () => {
-  year = (now - Math.floor(Math.random()*(now-min)))
+  curYear = now.getFullYear()
+  year = (curYear - Math.floor(random()*(curYear-min)))
   var photo
   if (!picks[r]) {
     photo = await getPhoto(year + " photographs by country")
@@ -56,8 +62,8 @@ getNext = async () => {
   let range = document.createElement("input")
   range.type = "range"
   range.min = min
-  range.max = now
-  range.value = (min+Math.ceil((now-min)/2))
+  range.max = curYear
+  range.value = (min+Math.ceil((curYear-min)/2))
   let text = document.createElement("input")
   text.type="text"
   text.value=range.value
@@ -122,26 +128,20 @@ getNext = async () => {
       document.body.appendChild(document.createElement("br"))
       document.body.appendChild(submit)
       if (photo.round == "5/5") {
-            submit.value= "New"
-            let link = document.createElement("input")
-            link.type = "text"
-            link.id = "link"
-            link.value = window.location.origin + window.location.pathname
-            link.value+="?p="
-            link.value+=btoa(picks.map(x => [x.pageid,x.country,x.year].join('.')).join('-')) 
+            submit.remove()
             let share = document.createElement("input")
             share.value = "Share"
             share.type = "Submit"
             share.addEventListener("click", ()=>navigator.share({
               title: "Wiki When",
-              text: `I scored ${score.value} at ${document.getElementById("link").value}`,
-              url: document.getElementById("link").value
+              text: `I scored ${score.value} at ${window.location.origin}}`,
+              url: window.location.origin
             }))
             if (navigator.share) {
               document.body.appendChild(share)
             }
             document.body.appendChild(document.createElement("br"))
-            document.body.append(link)
+            document.body.appendChild(document.createElement("br"))
       } else {
         submit.value= "Next"
       }
