@@ -78,6 +78,9 @@ getNext = async () => {
     resp = await fetch(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&generator=categorymembers&formatversion=2&pithumbsize=1000&pilicense=free&gcmtitle=Category%3A${category}&gcmtype=file|subcat&gcmlimit=max`)
     members =  await resp.json()
     countries = members?.query?.pages?.map(x => x?.title?.slice(29)?.replace(/^the /,"")).sort()
+    if (!countries.includes(photo.country)) {
+      photo.country = ""
+    }
   }
   countries.forEach(x => {
     let option = document.createElement("option")
@@ -168,7 +171,11 @@ if (p = (new URLSearchParams(window.location.search)).get("p")) {
   picks = atob(p)
     .split('-')
     .map(x => x.split('.'))
-    .map(([pageid, country, year]) => ({pageid, country, year}))
+    .map(([pageid, country, year]) => ({
+      pageid: parseInt(pageid),
+      country: country.replace(/[^0-9a-z ]/gi, ''),
+      year: parseInt(year)
+    }))
 }
 main = async()=>{
   if (picks.length > 0) {
