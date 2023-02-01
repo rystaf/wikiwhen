@@ -144,6 +144,7 @@ getNext = async () => {
                 navigator.clipboard.writeText(link.value);
                 share.value = "Copied"
                 share.disabled = true
+                setTimeout(()=>{share.value="Share";share.disabled=false},1000)
               }
             })
             if (navigator?.share || navigator?.clipboard) document.body.appendChild(share)
