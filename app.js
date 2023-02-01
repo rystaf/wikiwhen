@@ -65,7 +65,7 @@ getNext = async () => {
   range.max = curYear
   range.value = (min+Math.ceil((curYear-min)/2))
   let text = document.createElement("input")
-  text.type="text"
+  text.type="number"
   text.value=range.value
   let textLabel = document.createElement("label")
   textLabel.innerHTML = "Year:"
