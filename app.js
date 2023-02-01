@@ -129,7 +129,11 @@ getNext = async () => {
             let share = document.createElement("input")
             share.value = "Share"
             share.type = "Submit"
-            share.addEventListener("click", ()=>navigator.share(`I scored ${score.value} at ${document.getElementById("link").value}`))
+            share.addEventListener("click", ()=>navigator.share({
+              title: "Wiki When",
+              text: `I scored ${score.value} at ${document.getElementById("link").value}`,
+              url: document.getElementById("link").value
+            }))
             if (navigator.share) {
               document.body.appendChild(share)
             }
