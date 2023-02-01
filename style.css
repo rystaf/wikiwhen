@@ -17,7 +17,7 @@ figure {
   margin: 0 auto;
   background-size:     contain,auto;
   background-repeat:   no-repeat;
-  background-position: center bottom, center center;  
+  background-position: center bottom;  
 }
 input[type=range] {
   width:80%;
