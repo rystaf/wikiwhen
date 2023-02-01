@@ -177,8 +177,9 @@ main = async()=>{
     resp = await fetch(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&list=&pageids=${pageids}&formatversion=2&pithumbsize=1000&pilicense=free`)
     json = await resp.json()
     json?.query?.pages.forEach((x,i) => {
-      picks[i].source = x?.thumbnail?.source
-      picks[i].title = x.title
+      p = picks.find(y => y.pageid == x.pageid)
+      p.source = x?.thumbnail?.source
+      p.title = x.title
     })
   }
 
