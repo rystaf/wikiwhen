@@ -137,9 +137,7 @@ getNext = async () => {
             share.value = "Share"
             share.type = "Submit"
             share.addEventListener("click", ()=>navigator.share({
-              title: "Wiki When",
               text: link.value,
-              url: window.location.origin
             }))
             if (navigator.share) {
               document.body.appendChild(share)
