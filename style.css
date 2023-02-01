@@ -60,11 +60,6 @@ a,span {
   margin: 5px 0 10px 0;
   font-size: 1.5em;
   font-weight: bold;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-  margin: .25em;
 }
 label[for=score] {
   position:fixed;
