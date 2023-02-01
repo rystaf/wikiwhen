@@ -9,6 +9,9 @@ body {
   input[type=text] {
     width: 3em !important;
   }
+  input[type=submit] {
+    font-size: 200% !important;
+  }
 }
 figure {
   height: 80vh;
