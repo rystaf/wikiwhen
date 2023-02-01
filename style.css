@@ -15,9 +15,9 @@ figure {
   width: 100%;
   display: block;
   margin: 0 auto;
-  background-size:     contain;
+  background-size:     contain,auto;
   background-repeat:   no-repeat;
-  background-position: center bottom;  
+  background-position: center bottom, center center;  
 }
 input[type=range] {
   width:80%;

@@ -51,7 +51,7 @@ getNext = async () => {
   console.log(photo)
   photo.round = r+1+"/5"
   let img = document.createElement("figure")
-  img.style.backgroundImage = `url(${photo.source})`
+  img.style.backgroundImage = `url(${photo.source}), url(Loading_icon_cropped.gif)`
   document.body.appendChild(img)
   let range = document.createElement("input")
   range.type = "range"
