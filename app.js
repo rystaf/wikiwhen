@@ -13,9 +13,9 @@ var random
 getRandom = photos => {
   if (!photos) { return "" }
   i = Math.floor(random()*photos.length)
+  console.log("pick", i)
   member = photos[i]
   source = member?.thumbnail?.source
-  console.log("pick", member.title, source)
   if (member.title.slice(0,4) == "File" && !source) {
     return getRandom(photos)    
   }
@@ -28,7 +28,7 @@ getRandom = photos => {
   }
 }
 getPhoto = async (category, once) => {
-  console.log("get", category)
+  console.log("get photo")
   resp = await fetch(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&generator=categorymembers&formatversion=2&pithumbsize=1000&pilicense=free&gcmtitle=Category%3A${category}&gcmtype=file|subcat&gcmlimit=max`)
   members =  await resp.json()
   pick = getRandom(members?.query?.pages)
@@ -37,7 +37,6 @@ getPhoto = async (category, once) => {
     return getPhoto(year + " photographs by country")
   }
   if (/[0-9]{4} photographs by country/.test(category)) {
-    console.log("Main")
     countries = members?.query?.pages?.map(x => x?.title?.slice(29)?.replace(/^the /,"")).sort() || []
     country = pick?.title?.slice(29)?.replace(/^the /,"")
   }
@@ -214,20 +213,6 @@ random = module.exports(seed)
 main = async()=>{
   picks = localStorage.getItem(seed)?.split(':')?.map(x => x.split('|'))
     ?.map(([source, year, country, ...guess]) => ({source: domain+source, year, country, guess})) || []
-  console.log(picks)
-  //if (picks.length > 0) {
-  //  console.log(picks)
-  //  pageids = picks.map(x=>parseInt(x.pageid)).join('|')
-  //  resp = await fetch(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&list=&pageids=${pageids}&formatversion=2&pithumbsize=1000&pilicense=free`)
-  //  json = await resp.json()
-  //  json?.query?.pages.forEach((x,i) => {
-  //    p = picks.find(y => y.pageid == x.pageid)
-  //    p.source = x?.thumbnail?.source
-  //    p.title = x.title
-  //  })
-  //}
-
-  try { getNext() }
-  catch(err) {console.log("error")}
+  getNext()
 }
 main()
